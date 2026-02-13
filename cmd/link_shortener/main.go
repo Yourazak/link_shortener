@@ -34,7 +34,7 @@ func main() {
 	r.POST("/", mw.ValidatePostRequest, func(c *gin.Context) {
 		h.SaveUrl(c, &s)
 	})
-	r.GET("/:shortUrl", mw.ValidateGetRequest, func(c *gin.Context) {
+	r.GET("/:shortLink", mw.ValidateGetRequest, func(c *gin.Context) {
 		h.GetUrl(c, &s)
 	})
 
