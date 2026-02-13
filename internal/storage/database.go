@@ -53,7 +53,7 @@ func (d *Database) Get(key string) (string, error) {
 	err := d.DB.QueryRow(context.Background(), `SELECT value FROM url_table WHERE key=$1`, key).Scan(&value)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return "", errors.New("Key dosn't exists in database")
+			return "", errors.New("Key dosnt exists in database")
 		}
 		return "", err
 	}

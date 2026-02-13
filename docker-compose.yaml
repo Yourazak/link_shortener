@@ -6,19 +6,28 @@ services:
     ports:
       - "5433:5432"
     env_file:
-      - ../env/postgres.env
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
     networks:
       - app_network
 
   url_shortener:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
+      dockerfile: Dockerfile
     container_name: url_shortener
+    env_file:
+      - .env
     ports:
       - "8080:8080"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       - app_network
 

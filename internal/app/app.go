@@ -14,9 +14,22 @@ import (
 
 func InitEnv() *service.Config {
 	cfg := service.Config{}
-	err := godotenv.Load("env/storage.env")
-	if err != nil {
-		log.Fatal("Error loading env file ", err)
+	if envFile := os.Getenv("ENV_FILE"); envFile != "" {
+		if err := godotenv.Load(envFile); err != nil {
+			log.Printf("Error loading env file %s: %v", envFile, err)
+		}
+	} else {
+		candidateFiles := []string{".env", ".env"}
+		loaded := false
+		for _, file := range candidateFiles {
+			if err := godotenv.Load(file); err == nil {
+				loaded = true
+				break
+			}
+		}
+		if !loaded {
+			log.Printf("No env file loaded (tried %v); using process environment", candidateFiles)
+		}
 	}
 	cfg.Storage = os.Getenv("STORAGE")
 	if cfg.Storage == "" {

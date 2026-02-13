@@ -32,7 +32,7 @@ func (c *Cache) Get(key string) (string, error) {
 	if value, exists := c.DB[key]; exists {
 		return value, nil
 	}
-	return "", errors.New("key does't exists")
+	return "", errors.New("key doest exists")
 }
 func (c *Cache) Close() error {
 	return nil
