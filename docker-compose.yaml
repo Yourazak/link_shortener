@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: url_shortener
+    container_name: link_shortener
     env_file:
       - .env
     ports:
